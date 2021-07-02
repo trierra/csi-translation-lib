@@ -439,6 +439,12 @@ func generateUniqueVolumeSource(driverName string) (v1.VolumeSource, error) {
 				FSType:     "ext4",
 			},
 		}, nil
+	case plugins.PortworxDriverName:
+		return v1.VolumeSource{
+			PortworxVolume: &v1.PortworxVolumeSource{
+				VolumeID: string(uuid.NewUUID()),
+			},
+		}, nil
 	default:
 		return v1.VolumeSource{}, fmt.Errorf("couldn't find logic for driver: %v", driverName)
 	}
