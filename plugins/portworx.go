@@ -54,9 +54,7 @@ func (p portworxCSITranslator) TranslateInTreeInlineVolumeToCSI(volume *v1.Volum
 	}
 	pv := &v1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
-			// Must be unique per disk as it is used as the unique part of the
-			// staging path
-			Name: fmt.Sprintf("%s-%s", PortworxDriverName, volume.PortworxVolume.VolumeID),
+			Name: fmt.Sprintf("%s", PortworxDriverName),
 		},
 		Spec: v1.PersistentVolumeSpec{
 			PersistentVolumeSource: v1.PersistentVolumeSource{
@@ -67,7 +65,11 @@ func (p portworxCSITranslator) TranslateInTreeInlineVolumeToCSI(volume *v1.Volum
 					VolumeAttributes: make(map[string]string),
 				},
 			},
-			AccessModes: []v1.PersistentVolumeAccessMode{v1.ReadWriteOnce},
+			AccessModes: []v1.PersistentVolumeAccessMode{
+				v1.ReadWriteOnce,
+				v1.ReadOnlyMany,
+				v1.ReadWriteMany,
+			},
 		},
 	}
 	return pv, nil
