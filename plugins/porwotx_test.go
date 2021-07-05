@@ -118,7 +118,11 @@ func TestTranslatePortworxInTreeInlineVolumeToCSI(t *testing.T) {
 							VolumeAttributes: make(map[string]string),
 						},
 					},
-					AccessModes: []v1.PersistentVolumeAccessMode{v1.ReadWriteOnce},
+					AccessModes: []v1.PersistentVolumeAccessMode{
+						v1.ReadWriteOnce,
+						v1.ReadOnlyMany,
+						v1.ReadWriteMany,
+					},
 				},
 			},
 			errExpected: false,
@@ -159,9 +163,7 @@ func TestTranslatePortworxInTreePVToCSI(t *testing.T) {
 			name: "no Portworx volume",
 			inTree: &v1.PersistentVolume{
 				ObjectMeta: metav1.ObjectMeta{
-					// Must be unique per disk as it is used as the unique part of the
-					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
@@ -180,9 +182,7 @@ func TestTranslatePortworxInTreePVToCSI(t *testing.T) {
 			name: "normal",
 			inTree: &v1.PersistentVolume{
 				ObjectMeta: metav1.ObjectMeta{
-					// Must be unique per disk as it is used as the unique part of the
-					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
@@ -203,9 +203,7 @@ func TestTranslatePortworxInTreePVToCSI(t *testing.T) {
 			},
 			csi: &v1.PersistentVolume{
 				ObjectMeta: metav1.ObjectMeta{
-					// Must be unique per disk as it is used as the unique part of the
-					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
@@ -265,7 +263,7 @@ func TestTranslateCSIPvToInTree(t *testing.T) {
 				ObjectMeta: metav1.ObjectMeta{
 					// Must be unique per disk as it is used as the unique part of the
 					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
@@ -284,9 +282,7 @@ func TestTranslateCSIPvToInTree(t *testing.T) {
 			name: "normal",
 			csi: &v1.PersistentVolume{
 				ObjectMeta: metav1.ObjectMeta{
-					// Must be unique per disk as it is used as the unique part of the
-					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
@@ -308,9 +304,7 @@ func TestTranslateCSIPvToInTree(t *testing.T) {
 			},
 			inTree: &v1.PersistentVolume{
 				ObjectMeta: metav1.ObjectMeta{
-					// Must be unique per disk as it is used as the unique part of the
-					// staging path
-					Name: "pxd.portworx.com-ID",
+					Name: "pxd.portworx.com",
 				},
 				Spec: v1.PersistentVolumeSpec{
 					AccessModes: []v1.PersistentVolumeAccessMode{
