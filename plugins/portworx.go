@@ -54,7 +54,7 @@ func (p portworxCSITranslator) TranslateInTreeInlineVolumeToCSI(volume *v1.Volum
 	}
 	pv := &v1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: fmt.Sprintf("%s", PortworxDriverName),
+			Name: fmt.Sprintf("%s-%s", PortworxDriverName, volume.PortworxVolume.VolumeID),
 		},
 		Spec: v1.PersistentVolumeSpec{
 			PersistentVolumeSource: v1.PersistentVolumeSource{
