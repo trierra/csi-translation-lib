@@ -53,6 +53,13 @@ func (p portworxCSITranslator) TranslateInTreeInlineVolumeToCSI(volume *v1.Volum
 	if volume == nil || volume.PortworxVolume == nil {
 		return nil, fmt.Errorf("volume is nil or PortworxVolume not defined on volume")
 	}
+
+	var am v1.PersistentVolumeAccessMode
+	if volume.PortworxVolume.ReadOnly {
+		am = v1.ReadOnlyMany
+	} else {
+		am = v1.ReadWriteOnce
+	}
 	pv := &v1.PersistentVolume{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: fmt.Sprintf("%s-%s", PortworxDriverName, volume.PortworxVolume.VolumeID),
@@ -66,11 +73,7 @@ func (p portworxCSITranslator) TranslateInTreeInlineVolumeToCSI(volume *v1.Volum
 					VolumeAttributes: make(map[string]string),
 				},
 			},
-			AccessModes: []v1.PersistentVolumeAccessMode{
-				v1.ReadWriteOnce,
-				v1.ReadOnlyMany,
-				v1.ReadWriteMany,
-			},
+			AccessModes: []v1.PersistentVolumeAccessMode{am},
 		},
 	}
 	return pv, nil

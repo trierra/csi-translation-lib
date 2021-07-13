@@ -119,11 +119,7 @@ func TestTranslatePortworxInTreeInlineVolumeToCSI(t *testing.T) {
 							VolumeAttributes: make(map[string]string),
 						},
 					},
-					AccessModes: []v1.PersistentVolumeAccessMode{
-						v1.ReadWriteOnce,
-						v1.ReadOnlyMany,
-						v1.ReadWriteMany,
-					},
+					AccessModes: []v1.PersistentVolumeAccessMode{v1.ReadWriteOnce},
 				},
 			},
 			errExpected: false,
