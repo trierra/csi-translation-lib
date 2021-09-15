@@ -1,6 +1,6 @@
 // This is a generated file. Do not edit directly.
 
-module k8s.io/csi-translation-lib
+module github.com/trierra/csi-translation-lib
 
 go 1.16
 
